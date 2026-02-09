@@ -1,0 +1,13 @@
+.movies-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    /* 4 columns */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Optional: center the grid on large screens */
+.movies-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+}
