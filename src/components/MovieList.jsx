@@ -3,11 +3,16 @@ import { MovieCard } from "./MovieCard";
 import "../styles/movie-list.css"
 import { useMovieList } from "../hooks/UseMouvieList"
 import { useWatchList } from "../hooks/UseWatchList";
+import { Loading } from "./Loading";
+import { ErrorMessage } from "./Error";
 
 export function MovieList({retrievalMethod}) {
-    const { movies, sortMode, setQuery, setSortMode } = useMovieList(retrievalMethod);
+    const { movies, sortMode, setQuery, setSortMode, loading, err } = useMovieList(retrievalMethod);
     const { _ ,toggleWatch, isWatched} =useWatchList()
     
+    if (loading) return <Loading/>
+    if (err) return <ErrorMessage message={err.message}/>
+
     return (
         <div className="movies-grid">
             <div className="movies-controls">
