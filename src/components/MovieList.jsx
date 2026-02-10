@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import { MovieCard } from "./MovieCard";
 import "../styles/movie-list.css"
 import { useMovieList } from "../hooks/UseMouvieList"
+import { useWatchList } from "../hooks/UseWatchList";
 
-export function MovieList() {
-    const { movies, sortMode, setQuery, setSortMode } = useMovieList("fetch");
-
+export function MovieList({retrievalMethod}) {
+    const { movies, sortMode, setQuery, setSortMode } = useMovieList(retrievalMethod);
+    const { _ ,toggleWatch, isWatched} =useWatchList()
+    
     return (
         <div className="movies-grid">
             <div className="movies-controls">
@@ -26,7 +28,7 @@ export function MovieList() {
                 </div>
             </div>
             {movies.map((m) => {
-                return <MovieCard movie={m} key={m.id} />
+                return <MovieCard movie={m} toggleWatched={toggleWatch} isWatched={isWatched} key={m.id} />
             })}
         </div>
     )

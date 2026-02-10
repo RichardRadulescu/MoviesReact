@@ -14,7 +14,8 @@ function App() {
       </header>
       <Navigation menu={['Home', 'Watched Movies']} setActiveMenu={setActiveMenu} />
       <main>
-        {activeMenu === 'Home' && <MovieList/> }
+        {activeMenu === 'Home' && <MovieList retrievalMethod={"fetch"}/> }
+        {activeMenu === 'Watched Movies' && <MovieList retrievalMethod={"local"}/> }
         
       </main>
     </div>
