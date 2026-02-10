@@ -3,3 +3,6 @@ node_modules
 dist
 dist-ssr
 *.local
+.eslintrc.json
+eslint.config.js
+.vscode

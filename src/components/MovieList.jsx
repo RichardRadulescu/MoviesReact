@@ -1,35 +1,15 @@
 import { useEffect, useState } from "react";
 import { MovieCard } from "./MovieCard";
 import "../styles/movie-list.css"
+import { useMovieList } from "../hooks/UseMouvieList"
 
-export function MovieList(){
-    const [movies, setMovies]= useState([])
-    const [query, setQuery]= useState('')
-    const [isSortedAlphabetical, setIsSortedAlphabetical] = useState(false)
-    const [isSortedRating, setIsSortedRating] = useState(false)
-
-
-    let mutatedMovies= movies.filter((movie)=> movie.title.toLowerCase().startsWith(query.toLowerCase()))
-    
-    if (isSortedAlphabetical)
-        mutatedMovies= [...mutatedMovies].sort((m1,m2)=> m1.title.localeCompare(m2.title))
-
-    if (isSortedRating)
-        mutatedMovies= [...mutatedMovies].sort((m1,m2)=> m1.rating - m2.rating)
-
-    useEffect(()=>{
-        async function getMovies() {
-            const res = await fetch('/movies/movies.json')
-            const data = await res.json()
-            setMovies(data)
-        }
-        getMovies()
-    }, [])
+export function MovieList() {
+    const { movies, sortMode, setQuery, setSortMode } = useMovieList("fetch");
 
     return (
         <div className="movies-grid">
             <div className="movies-controls">
-                <form onSubmit={(e)=>{e.preventDefault()}}>
+                <form onSubmit={(e) => { e.preventDefault() }}>
                     <label htmlFor="search-movie"></label>
                     <input type="text" name="search-movie" placeholder="..."
                         onChange={e => setQuery(e.target.value)}></input>
@@ -37,21 +17,16 @@ export function MovieList(){
                 </form>
                 <div className="sort-buttons">
                     <button type="button"
-                        className={isSortedAlphabetical ? "active" : ""}
-                    
-                        onClick={()=>{setIsSortedAlphabetical(prev=> !prev)
-                        setIsSortedRating(false)
-                    }}>Sort A-Z</button>
+                        className={sortMode === 'alpha' ? "active" : ""}
+                        onClick={() => { setSortMode(sortMode === 'alpha' ? null : 'alpha') }}>Sort A-Z</button>
                     <button type="button"
-                        className={isSortedRating ? "active" : ""} 
-                    
-                        onClick={()=>{setIsSortedRating(prev=> !prev)
-                        setIsSortedAlphabetical(false)
-                    }}>Sort rating</button>
+                        className={sortMode === 'rating' ? "active" : ""}
+
+                        onClick={() => { setSortMode(sortMode === 'rating' ? null : 'rating') }}>Sort rating</button>
                 </div>
             </div>
-            {mutatedMovies.map((m)=>{
-               return <MovieCard movie={m} key={m.id}/> 
+            {movies.map((m) => {
+                return <MovieCard movie={m} key={m.id} />
             })}
         </div>
     )
