@@ -11,3 +11,64 @@
     max-width: 1200px;
     margin: 0 auto;
 }
+
+/* Container for search + sort buttons */
+.movies-controls {
+    grid-column: 1 / -1;
+    /* span full width of the grid */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+/* Search form */
+.movies-controls form {
+    display: flex;
+    gap: 10px;
+    margin: 0 auto;
+}
+
+.movies-controls input[type="text"] {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 14px;
+    width: 200px;
+    transition: border-color 0.2s ease;
+}
+
+.movies-controls input[type="text"]:focus {
+    border-color: #007bff;
+    outline: none;
+}
+
+/* Sort buttons container */
+.sort-buttons {
+    display: flex;
+    gap: 10px;
+    margin-left: auto;
+}
+
+/* Toggle-style buttons */
+.sort-buttons button {
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    background: #f7f7f7;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.2s ease;
+}
+
+/* Hover effect */
+.sort-buttons button:hover {
+    background: #eaeaea;
+}
+
+/* Active toggle state */
+.sort-buttons button.active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
