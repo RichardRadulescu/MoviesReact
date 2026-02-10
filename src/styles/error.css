@@ -1,0 +1,16 @@
+.error-message {
+    padding: 14px 18px;
+    background: rgba(255, 0, 0, 0.08);
+    /* soft translucent pink */
+    border: 2px solid rgba(255, 0, 0, 0.4);
+    /* stronger red border */
+    color: #a30000;
+    /* deep red text */
+    border-radius: 8px;
+    margin: 12px 0;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 500;
+    backdrop-filter: blur(2px);
+    /* subtle glass effect */
+}
