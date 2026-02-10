@@ -41,3 +41,11 @@
 .movie-card button:hover {
     background-color: #005fcc;
 }
+
+.movie-card button.active {
+    background-color: #cc0000;
+}
+
+.movie-card button.active:hover {
+    background-color: #a30000;
+}
