@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { MovieCard } from "./MovieCard";
 import "../styles/movie-list.css"
 import { useMovieList } from "../hooks/UseMouvieList"
@@ -7,13 +7,17 @@ import { Loading } from "./Loading";
 import { ErrorMessage } from "./Error";
 
 export function MovieList({retrievalMethod}) {
-    const { movies, sortMode, setQuery, setSortMode, loading, err } = useMovieList(retrievalMethod);
+    const { movies, page, totalPages, setPage,
+            sortMode, setQuery, setSortMode,
+            loading, err } = useMovieList(retrievalMethod);
     const { _ ,toggleWatch, isWatched} =useWatchList()
     
+
     if (loading) return <Loading/>
     if (err) return <ErrorMessage message={err.message}/>
 
     return (
+        <>
         <div className="movies-grid">
             <div className="movies-controls">
                 <form onSubmit={(e) => { e.preventDefault() }}>
@@ -32,9 +36,19 @@ export function MovieList({retrievalMethod}) {
                         onClick={() => { setSortMode(sortMode === 'rating' ? null : 'rating') }}>Sort rating</button>
                 </div>
             </div>
+            
             {movies.map((m) => {
                 return <MovieCard movie={m} toggleWatched={toggleWatch} isWatched={isWatched} key={m.id} />
             })}
+            
         </div>
+        <div className="pagination-controls">
+                <button disabled={page === 1} onClick={()=>{setPage(p=>p-1)}}>
+                </button>
+                <span>{page}</span>
+                <button disabled={page === totalPages} onClick={()=>{setPage(p=>p+1)}}>
+                </button>
+        </div>
+        </>
     )
 }
