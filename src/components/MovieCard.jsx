@@ -8,7 +8,9 @@ export function MovieCard({movie, toggleWatched, isWatched}){
             <h1>{movie.title}</h1>
             <p>Category: {movie.genre}</p>
             <p>Score: {movie.rating}</p>
-            <img src={`/movies/images/${movie.image}`} alt={movie.title} />
+            <img src={ movie.image.startsWith("http") ?
+                            movie.image : 
+                            `/movies/images/${movie.image}` } alt={movie.title} />
 
             <button onClick={()=> toggleWatched(movie)}
                 className={isWatched(movie)? 'active': null }

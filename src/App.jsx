@@ -12,11 +12,11 @@ function App() {
        Movie App
        
       </header>
-      <Navigation menu={['Home', 'Watched Movies']} setActiveMenu={setActiveMenu} />
+      <Navigation menu={['Home', 'Anime', 'Watched Movies']} setActiveMenu={setActiveMenu} />
       <main>
         {activeMenu === 'Home' && <MovieList retrievalMethod={"fetch"}/> }
         {activeMenu === 'Watched Movies' && <MovieList retrievalMethod={"local"}/> }
-        
+        {activeMenu === 'Anime' && <MovieList retrievalMethod={"fetch-anime"} />}
       </main>
     </div>
   );

@@ -6,7 +6,8 @@ export function useMovieList(source) {
     const [movies, setMovies] = useState([]);
     const [query, setQuery] = useState("");
     const [sortMode, setSortMode] = useState(null); // "alpha" | "rating" | null
-
+    const [page, setPage]= useState(1)
+    const pageSize= 8
 
     /*          SIMULATE ERROR FROM BACKEND
     function loadMovies() {
@@ -16,6 +17,17 @@ export function useMovieList(source) {
     }
     const { run, loading, err } = useAsync(loadMovies, [source]);
     */
+    function mapAnime(anime) {
+        return {
+            id: anime.mal_id,
+            title: anime.title,
+            image: anime.images?.jpg?.image_url || null,
+            genre: anime.genres?.[0]?.name || "Unknown",
+            rating: anime.score?.toString() || "N/A"
+        };
+    }
+
+
     const { run, loading, err } = useAsync(async () => {
         if (source === "fetch") {
             const res = await fetch('/movies/movies.json');
@@ -23,6 +35,15 @@ export function useMovieList(source) {
         }
         if (source === "local") { 
             return JSON.parse(localStorage.getItem("watched") || "[]"); 
+        }
+        if (source === 'fetch-anime'){
+            const url = new URL("https://api.jikan.moe/v4/anime"); 
+            url.searchParams.set("page", 1);
+            url.searchParams.set("limit", 25); 
+            const res = await fetch(url);
+            // special flag 
+            const data = await res.json();
+            return data.data.map(mapAnime);
         }
     }, [source])
 
@@ -49,6 +70,16 @@ export function useMovieList(source) {
         return list;
     }, [movies, query, sortMode]);
 
-    return { movies: visibleMovies, sortMode, setQuery, setSortMode, loading, err };
+    const pagedMovies = useMemo(()=>{
+        if (!Array.isArray(visibleMovies)) return []
+        const start = (page - 1) * pageSize
+        return visibleMovies.slice(start, start + pageSize)
+    },[visibleMovies, page])
+
+    return { movies: pagedMovies, 
+             page, totalPages: Math.ceil(visibleMovies/ pageSize), setPage,
+             sortMode, setQuery, setSortMode,
+             loading, err 
+            };
 
 }
