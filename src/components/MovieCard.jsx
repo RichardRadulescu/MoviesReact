@@ -10,7 +10,9 @@ export function MovieCard({movie, toggleWatched, isWatched}){
             <p>Score: {movie.rating}</p>
             <img src={ movie.image.startsWith("http") ?
                             movie.image : 
-                            `/movies/images/${movie.image}` } alt={movie.title} />
+                            `/movies/images/${movie.image}` } alt={movie.title}
+                 loading="lazy" className="movie-img"        
+                        />
 
             <button onClick={()=> toggleWatched(movie)}
                 className={isWatched(movie)? 'active': null }

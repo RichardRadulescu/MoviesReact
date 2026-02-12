@@ -2,3 +2,4 @@
  ![Day2](./progress/day2_1.png)
  ![Day2](./progress/day2_2.png)
  ![Day2](./progress/day2_3.png)
+ ![Day3](./progress/day3.png)
