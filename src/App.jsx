@@ -3,7 +3,7 @@ import { MovieList } from "./components/MovieList";
 import { Navigation } from "./components/Navigation";
 
 function App() {
-  const [activeMenu, setActiveMenu]= useState('Home')
+  const [activeMenu, setActiveMenu]= useState('Movies')
 
 
   return (
@@ -12,9 +12,9 @@ function App() {
        Movie App
        
       </header>
-      <Navigation menu={['Home', 'Anime', 'Watched Movies']} setActiveMenu={setActiveMenu} />
+      <Navigation menu={['Movies', 'Anime', 'Watched Movies']} setActiveMenu={setActiveMenu} />
       <main>
-        {activeMenu === 'Home' && <MovieList retrievalMethod={"fetch"}/> }
+        {activeMenu === 'Movies' && <MovieList retrievalMethod={"fetch"}/> }
         {activeMenu === 'Watched Movies' && <MovieList retrievalMethod={"local"}/> }
         {activeMenu === 'Anime' && <MovieList retrievalMethod={"fetch-anime"} />}
       </main>

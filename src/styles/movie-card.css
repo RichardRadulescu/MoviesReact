@@ -49,3 +49,17 @@
 .movie-card button.active:hover {
     background-color: #a30000;
 }
+
+.movie-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: #e0e0e0;
+    /* placeholder color */
+    filter: blur(10px);
+    transition: filter 0.4s ease;
+}
+
+.movie-img:not([src=""]) {
+    filter: blur(0);
+}

@@ -53,7 +53,10 @@ export function useMovieList(source) {
         })
     }, [run]);
 
-
+    useEffect(()=>{
+        setPage(1)
+    },[query, movies, sortMode])
+    
     const visibleMovies = useMemo(() => {
         if (!Array.isArray(movies)) return []
 
@@ -77,7 +80,7 @@ export function useMovieList(source) {
     },[visibleMovies, page])
 
     return { movies: pagedMovies, 
-             page, totalPages: Math.ceil(visibleMovies/ pageSize), setPage,
+             page, totalPages: Math.ceil(visibleMovies.length/ pageSize), setPage,
              sortMode, setQuery, setSortMode,
              loading, err 
             };
