@@ -112,3 +112,9 @@
     min-width: 24px;
     text-align: center;
 }
+
+.movie-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
