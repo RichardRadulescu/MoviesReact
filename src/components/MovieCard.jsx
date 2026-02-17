@@ -14,7 +14,7 @@ export function MovieCard({movie, toggleWatched, isWatched}){
                  loading="lazy" className="movie-img"        
                         />
 
-            <button onClick={()=> toggleWatched(movie)}
+            <button onClick={(e)=> {e.preventDefault(); toggleWatched(movie)}}
                 className={isWatched(movie)? 'active': null }
             >
                 {isWatched(movie)? "Remove from Watchlist" : "Add Watchlist"}
