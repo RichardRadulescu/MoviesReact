@@ -38,36 +38,31 @@ export function useMovieList(source) {
             rating: anime.score?.toString() || "N/A"
         };
     }
-
-
-    const { run, loading, err } = useAsync(async () => {
+    function loadMovies() {
         if (source === "fetch") {
-            const res = await fetch('/movies/movies.json');
-            return res.json();
+            return fetch('/movies/movies.json').then(r => r.json());
         }
         if (source === "local") {
-            return JSON.parse(localStorage.getItem("watched") || "[]");
+            return Promise.resolve(JSON.parse(localStorage.getItem("watched") || "[]"));
         }
-        if (source === 'fetch-anime') {
+        if (source === "fetch-anime") {
             const url = new URL("https://api.jikan.moe/v4/anime");
             url.searchParams.set("page", 1);
             url.searchParams.set("limit", 25);
-            const res = await fetch(url);
-            // special flag 
-            const data = await res.json();
-            return data.data.map(mapAnime);
+            return fetch(url)
+                .then(r => r.json())
+                .then(data => data.data.map(mapAnime));
         }
-    }, [source])
+    }
+
+
+    const { run, loading, err } = useAsync( loadMovies, [source])
 
     useEffect(() => {
         run().then(data => {
             if (data) setMovies(data)
         })
     }, [run]);
-
-    useEffect(() => {
-        setPage(1)
-    }, [query, movies, sortMode])
 
     const visibleMovies = useMemo(() => {
         if (!Array.isArray(movies)) return []
