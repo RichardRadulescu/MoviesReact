@@ -1,13 +1,25 @@
 import { useEffect, useMemo, useState } from "react";
 import { useAsync } from "./UseAsync";
-
+import { useSearchParams } from "react-router-dom";
 
 export function useMovieList(source) {
+    const [searchParams, setSearchParams] = useSearchParams()
     const [movies, setMovies] = useState([]);
-    const [query, setQuery] = useState("");
-    const [sortMode, setSortMode] = useState(null); // "alpha" | "rating" | null
-    const [page, setPage]= useState(1)
-    const pageSize= 8
+    const query = searchParams.get("query") ?? ""
+    const sortMode = searchParams.get("sort") ?? null
+    const page = Number(searchParams.get("page") ?? 1)
+    const pageSize = 8
+
+    function updateParam(key, value) {
+        const params = new URLSearchParams(searchParams);
+        if (value === null || value === "" || value === undefined) { params.delete(key); }
+        else { params.set(key, value); }
+        setSearchParams(params);
+    } 
+    const setPage = (p) => updateParam("page", p);
+    const setSortMode = (m) => updateParam("sort", m);
+    const setQuery = (q) => updateParam("query", q);
+
 
     /*          SIMULATE ERROR FROM BACKEND
     function loadMovies() {
@@ -33,13 +45,13 @@ export function useMovieList(source) {
             const res = await fetch('/movies/movies.json');
             return res.json();
         }
-        if (source === "local") { 
-            return JSON.parse(localStorage.getItem("watched") || "[]"); 
+        if (source === "local") {
+            return JSON.parse(localStorage.getItem("watched") || "[]");
         }
-        if (source === 'fetch-anime'){
-            const url = new URL("https://api.jikan.moe/v4/anime"); 
+        if (source === 'fetch-anime') {
+            const url = new URL("https://api.jikan.moe/v4/anime");
             url.searchParams.set("page", 1);
-            url.searchParams.set("limit", 25); 
+            url.searchParams.set("limit", 25);
             const res = await fetch(url);
             // special flag 
             const data = await res.json();
@@ -48,15 +60,15 @@ export function useMovieList(source) {
     }, [source])
 
     useEffect(() => {
-        run().then(data =>{
+        run().then(data => {
             if (data) setMovies(data)
         })
     }, [run]);
 
-    useEffect(()=>{
+    useEffect(() => {
         setPage(1)
-    },[query, movies, sortMode])
-    
+    }, [query, movies, sortMode])
+
     const visibleMovies = useMemo(() => {
         if (!Array.isArray(movies)) return []
 
@@ -73,16 +85,17 @@ export function useMovieList(source) {
         return list;
     }, [movies, query, sortMode]);
 
-    const pagedMovies = useMemo(()=>{
+    const pagedMovies = useMemo(() => {
         if (!Array.isArray(visibleMovies)) return []
         const start = (page - 1) * pageSize
         return visibleMovies.slice(start, start + pageSize)
-    },[visibleMovies, page])
+    }, [visibleMovies, page])
 
-    return { movies: pagedMovies, 
-             page, totalPages: Math.ceil(visibleMovies.length/ pageSize), setPage,
-             sortMode, setQuery, setSortMode,
-             loading, err 
-            };
+    return {
+        movies: pagedMovies,
+        page, totalPages: Math.ceil(visibleMovies.length / pageSize), setPage,
+        sortMode, setQuery, setSortMode,
+        loading, err
+    };
 
 }

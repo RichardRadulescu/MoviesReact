@@ -1,22 +1,19 @@
 import { useState } from "react";
 import { MovieList } from "./components/MovieList";
 import { Navigation } from "./components/Navigation";
+import { createBrowserRouter, Outlet } from "react-router-dom";
+
 
 function App() {
-  const [activeMenu, setActiveMenu]= useState('Movies')
-
-
+  
   return (
     <div>
       <header>
-       Movie App
-       
+          Movie App
       </header>
-      <Navigation menu={['Movies', 'Anime', 'Watched Movies']} setActiveMenu={setActiveMenu} />
+      <Navigation/>
       <main>
-        {activeMenu === 'Movies' && <MovieList retrievalMethod={"fetch"}/> }
-        {activeMenu === 'Watched Movies' && <MovieList retrievalMethod={"local"}/> }
-        {activeMenu === 'Anime' && <MovieList retrievalMethod={"fetch-anime"} />}
+        <Outlet/>
       </main>
     </div>
   );

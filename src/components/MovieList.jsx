@@ -43,10 +43,10 @@ export function MovieList({retrievalMethod}) {
             
         </div>
         <div className="pagination-controls">
-                <button disabled={page === 1} onClick={()=>{setPage(p=>p-1)}}>
+                <button disabled={page === 1} onClick={()=>{setPage(page-1)}}>
                 </button>
                 <span>{page}</span>
-                <button disabled={page === totalPages} onClick={()=>{setPage(p=>p+1)}}>
+                <button disabled={page === totalPages} onClick={()=>{setPage(page+1)}}>
                 </button>
         </div>
         </>
