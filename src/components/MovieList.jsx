@@ -5,6 +5,7 @@ import { useMovieList } from "../hooks/UseMouvieList"
 import { useWatchList } from "../hooks/UseWatchList";
 import { Loading } from "./Loading";
 import { ErrorMessage } from "./Error";
+import { Link } from "react-router-dom";
 
 export function MovieList({retrievalMethod}) {
     const { movies, page, totalPages, setPage,
@@ -38,15 +39,17 @@ export function MovieList({retrievalMethod}) {
             </div>
             
             {movies.map((m) => {
-                return <MovieCard movie={m} toggleWatched={toggleWatch} isWatched={isWatched} key={m.id} />
+                return <Link to={`${m.id}`} className="movie-card-link">
+                    <MovieCard movie={m} toggleWatched={toggleWatch} isWatched={isWatched} key={m.id} />
+                 </Link>
             })}
             
         </div>
         <div className="pagination-controls">
-                <button disabled={page === 1} onClick={()=>{setPage(p=>p-1)}}>
+                <button disabled={page === 1} onClick={()=>{setPage(page-1)}}>
                 </button>
                 <span>{page}</span>
-                <button disabled={page === totalPages} onClick={()=>{setPage(p=>p+1)}}>
+                <button disabled={page === totalPages} onClick={()=>{setPage(page+1)}}>
                 </button>
         </div>
         </>

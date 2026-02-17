@@ -1,13 +1,12 @@
+import { Link } from "react-router-dom"
 import "../styles/navigation.css"
-export function Navigation({menu, setActiveMenu}){
+export function Navigation({ menu, setActiveMenu }) {
 
     return (
-    <nav>
-    {
-        menu.map(item => 
-            ( <button key={item} type="button" onClick={()=> setActiveMenu(item)}>{item}</button>)
-        )
-    }
-    </nav>
-)
+        <nav>
+            <Link to="/movies">Movies</Link>
+            <Link to="/anime">Anime</Link>
+            <Link to="/watched-movies">Watched Movies</Link>
+        </nav>
+    )
 }
